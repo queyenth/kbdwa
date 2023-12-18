@@ -1,0 +1,12 @@
+* KeyBoarD changes WAtcher
+Basically a simple program that sits there and listen for XKB changes (layout, caps lock), and also outputs the status of modifiers. Wrote for an eww bar, but not really wrote, composed from the couple programs found on stackoverflow.
+** Layout
+Outputs the short layout name, e.g. us, ru, ge. If caps lock is active, then the layout name is uppercased, US RU GE.
+** Modifiers
+Currently it outputs the icons (requires nerd font), but just change the source code to output whatever you want. Or just delete the whole section to not output anything.
+** Compile
+```
+gcc -o kbdwa main.c -lX11 -lxkbfile
+```
+** Usage
+Just run the compiled `kbdwa` and it will output the changes to the stdout. For eww, just add `(deflisten kb "/path/to/kbdwa")`.
