@@ -1,5 +1,6 @@
 * KeyBoarD changes WAtcher
 Basically a simple program that sits there and listen for XKB changes (layout, caps lock), and also outputs the status of modifiers. Wrote for an eww bar, but not really wrote, composed from the couple programs found on stackoverflow.  
+
 [[scrot.png]]
 ** Layout
 Outputs the short layout name, e.g. us, ru, ge. If caps lock is active, then the layout name is uppercased, US RU GE.
