@@ -1,0 +1,43 @@
+#!/bin/sh
+
+KBD_IDENTIFIER="1240:60205:liliums_Lily58"
+
+get_kbd_layout() {
+    M_SHIFT=1
+    M_CAPS=2
+    M_CTRL=4
+    M_ALT=8
+    M_LOGO=64
+
+    MODS_MASK=$(swaymsg -r -t get_inputs | jq -r ".[] | select(.identifier == \"$KBD_IDENTIFIER\") | .mods_mask")
+    ACTIVE_LAYOUT=$(swaymsg -r -t get_inputs | jq -r ".[] | select(.identifier == \"$KBD_IDENTIFIER\") | .xkb_active_layout_index")
+
+    OUTPUT=""
+
+    if [ $((MODS_MASK & M_LOGO)) -ne 0 ]; then
+	OUTPUT="$OUTPUT 󰘳"
+    fi
+    if [ $((MODS_MASK & M_ALT)) -ne 0 ]; then
+	OUTPUT="$OUTPUT 󰘵"
+    fi
+    if [ $((MODS_MASK & M_SHIFT)) -ne 0 ]; then
+	OUTPUT="$OUTPUT 󰘶"
+    fi
+    if [ $((MODS_MASK & M_CTRL)) -ne 0 ]; then
+	OUTPUT="$OUTPUT 󰘴"
+    fi
+
+    if [ $ACTIVE_LAYOUT = "0" ]; then
+	OUTPUT="$OUTPUT us"
+    else
+	OUTPUT="$OUTPUT ru"
+    fi
+
+    echo "${OUTPUT# }"
+}
+
+get_kbd_layout
+
+swaymsg -t subscribe -m '["input"]' | while read -r _ ; do
+    get_kbd_layout
+done
